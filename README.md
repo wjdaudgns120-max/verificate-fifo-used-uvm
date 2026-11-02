@@ -3,6 +3,10 @@
 SystemVerilog로 설계한 **8-bit × 4-depth 동기 FIFO**를 **UVM 테스트벤치**로 검증한 프로젝트입니다.
 랜덤 push/pop 시퀀스 1,500개를 인가하고, 스코어보드의 참조 모델과 비교해 **fail 0건, functional coverage 100%** 를 달성했습니다.
 
+## System Overview
+
+![System Overview](docs/system_overview.png)
+
 ## DUT: FIFO
 
 ![Top Schematic](docs/top_schematic.png)
