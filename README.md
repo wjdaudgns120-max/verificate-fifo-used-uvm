@@ -7,6 +7,21 @@ SystemVerilog로 설계한 **8-bit × 4-depth 동기 FIFO**를 **UVM 테스트�
 
 ![System Overview](docs/system_overview.png)
 
+### System Flow
+
+위 그림에서 트랜잭션 하나가 이렇게 흐르며 검증됩니다.
+
+1. **Sequence → Sequencer → Driver (자극 생성)**
+   `fifo_sequence`가 `push`, `pop`, `wdata`를 랜덤으로 만든 트랜잭션 1,500개를 생성하고, Driver가 클럭 negedge에 인터페이스를 통해 DUT에 인가합니다.
+2. **DUT (FIFO 동작)**
+   `control_unit`이 `{push, pop}` 조합에 따라 `wptr`/`rptr`와 `full`/`empty`를 갱신하고, `ram`에 쓰거나 `rdata`(조합 출력)로 읽습니다.
+3. **Monitor (관측)**
+   clocking block(`#1step`)으로 클럭 엣지 직전의 입출력 값을 샘플링해서, analysis port로 Scoreboard와 Coverage에 동시에 보냅니다.
+4. **Scoreboard (정답 비교)**
+   SystemVerilog 큐(`ref_fifo[$]`)로 만든 참조 모델에 push 데이터를 넣고, pop할 때 꺼낸 기대값과 DUT의 `rdata`를 비교해 PASS/FAIL을 셉니다.
+5. **Coverage (검증 완성도)**
+   push/pop/full/empty/wdata와 cross 조합이 모두 나왔는지 기록하고, 시뮬레이션 끝에 pass·fail 개수와 coverage를 리포트합니다.
+
 ## DUT: FIFO
 
 ![Top Schematic](docs/top_schematic.png)
