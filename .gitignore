@@ -1,0 +1,18 @@
+# VCS / Verdi outputs
+build/
+csrc/
+simv*
+*.daidir
+*.fsdb
+*.vdb
+*.key
+*.log
+novas*
+verdiLog/
+inter.*
+.inter.*
+files.f
+ucli.key
+# Editor
+*.swp
+*~
